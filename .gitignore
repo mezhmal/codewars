@@ -3,5 +3,6 @@
 
 .vscode/
 
+.metals
 .bsp
 target/
