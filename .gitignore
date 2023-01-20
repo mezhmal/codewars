@@ -4,6 +4,7 @@
 .vscode/
 
 .metals
+metals.*
 .bsp
 
 **/target/
