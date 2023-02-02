@@ -2,6 +2,7 @@
 *.log
 
 .vscode/
+.idea/
 
 .metals
 metals.*
@@ -9,3 +10,6 @@ metals.*
 
 **/target/
 **/project/build.properties
+
+.scalafmt.conf
+project/
