@@ -21,3 +21,5 @@ To build the triangle, start with a single 1 at the top, for each number in the 
   1   2   1
 1   3   3   1
 ```
+
+https://www.codewars.com/kata/reviews/5d0a54620310c20001a4a8c6/groups/6087b4e0ac37b50001341f93

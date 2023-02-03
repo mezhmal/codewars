@@ -1,6 +1,3 @@
-import scala.collection.mutable.ListBuffer
-
-
 @main def solution(params: String*): Unit =
   println(Kata.pascal(1))
   println(Kata.pascal(2))
