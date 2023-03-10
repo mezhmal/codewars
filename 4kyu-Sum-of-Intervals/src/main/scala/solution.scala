@@ -23,7 +23,7 @@ def mergePair(interval1: (Int, Int), interval2: (Int, Int)): List[(Int, Int)] =
 
 def mergeHeadWithTail(intervals: List[(Int, Int)]): ((Int, Int), List[(Int, Int)]) =
   var head = intervals.head
-  var tail = intervals.drop(1)
+  var tail = intervals.tail
   for (interval <- tail) {
     val mergedPair = mergePair(head, interval)
     if (mergedPair.size == 1) {
@@ -34,11 +34,11 @@ def mergeHeadWithTail(intervals: List[(Int, Int)]): ((Int, Int), List[(Int, Int)
   (head, tail)
 
 def sumOfIntervals(intervals: List[(Int, Int)]): Int =
-  var tail = intervals.sortBy(-_._2)sortBy(_._1)
+  var restIntervals = intervals.sorted
   var mergedIntervals: List[(Int, Int)] = List()
-  while (tail.size > 0) {
-    val result = mergeHeadWithTail(tail)
-    mergedIntervals = mergedIntervals :+ result._1
-    tail = result._2
+  while (restIntervals.size > 0) {
+    val (head, tail) = mergeHeadWithTail(restIntervals)
+    mergedIntervals = mergedIntervals :+ head
+    restIntervals = tail
   }
   mergedIntervals.map((start, end) => end - start).sum
