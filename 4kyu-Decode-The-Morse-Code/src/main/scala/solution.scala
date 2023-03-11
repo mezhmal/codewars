@@ -45,34 +45,34 @@ object MorseDecoder {
     "-.--" -> "Y",
   )
 
-  val wordSeparator = " "
   val morseDot = "."
   val morseDash = "-"
   val morseWordSeparator = "   "
   val morseCharacterSeparator = " "
 
   def decodeBits(bits: String): String = {
-    var characterBits = List[String]()
+    var binaryCharacters = List[String]()
     var bitsTail = bits.dropWhile(_ == '0').reverse.dropWhile(_ == '0').reverse
     while (!bitsTail.isEmpty()) {
-      characterBits = characterBits :+ bitsTail.takeWhile(_ == bitsTail.head)
+      binaryCharacters = binaryCharacters :+ bitsTail.takeWhile(_ == bitsTail.head)
       bitsTail = bitsTail.dropWhile(_ == bitsTail.head)
     }
-    val bitsInCharacter = characterBits.map(_.size).min
-    characterBits.map(_ match {
-      case x if x.head == '0' => x.size match {
-        case s if s > bitsInCharacter * 3 => morseWordSeparator
-        case s if s > bitsInCharacter => morseCharacterSeparator
-        case _ => ""
+    val bitsInUnit = binaryCharacters.map(_.size).min
+    binaryCharacters.map(binaryCharacter => {
+      (binaryCharacter.head, binaryCharacter.size/bitsInUnit) match {
+        case ('1', 1) => morseDot
+        case ('1', 3) => morseDash
+        case ('0', 1) => ""
+        case ('0', 7) => morseWordSeparator
+        case ('0', 3) => morseCharacterSeparator
+        case _ => "?"
       }
-      case x if x.head == '1' => if (x.size > bitsInCharacter) morseDash else morseDot
-      case x => x.head.toString
     }).mkString
   }
 
   def decodeMorse(morseCode: String): String = {
     morseCode.trim.split(morseWordSeparator)
       .map(_.split(morseCharacterSeparator).map(morseCodes).mkString)
-      .mkString(wordSeparator)
+      .mkString(" ")
   }
 }
