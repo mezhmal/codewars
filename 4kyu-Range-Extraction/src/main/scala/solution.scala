@@ -16,17 +16,17 @@ case class Example(xs: List[Int], expected: String)
 
 object Kata {
   def solution(xs: List[Int]): String =
-    var tail = xs
-    var accumulator = List[List[Int]]()
-    while (tail.nonEmpty) {
-      val sequence = ((List(tail.head - 1) ::: tail) zip tail).takeWhile((previous, current) => previous + 1 == current).map(_._2)
-      accumulator = accumulator :+ sequence
-      tail = tail.drop(sequence.size)
-    }
-    accumulator.map(_ match {
+    xs.foldLeft(List[List[Int]]()) {
+      case (Nil, value) => List(List(value))
+      case (accumulator, value) =>
+        if (accumulator.last.last + 1 == value)
+          accumulator.dropRight(1) :+ (accumulator.last :+ value)
+        else
+          accumulator :+ List(value)
+    }.map {
       case single :: Nil => single.toString
-      case first :: second :: Nil => s"$first,$second"
+      case first :: second :: Nil => List(first, second).mkString(",")
       case head :: tail => s"$head-${tail.last}"
       case _ => "?"
-    }).mkString(",")
+    }.mkString(",")
 }
