@@ -18,9 +18,5 @@ case class Example(input: String, expected: String)
 object WeightSort {
 
   def orderWeight(str: String): String = 
-    str.split(" ")
-      .map(weight => (weight.trim, weight.trim.map(_.asDigit).sum))
-      .sortWith((a, b) => if (a._2 == b._2) a._1 < b._1 else a._2 < b._2)
-      .map(_._1)
-      .mkString(" ")
+    str.split(" ").sortBy(weight => (weight.map(_.asDigit).sum, weight)).mkString(" ")
 }
