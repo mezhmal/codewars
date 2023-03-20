@@ -17,7 +17,6 @@ case class Example(t: Int, k: Int, ls: List[Int], expected: Int)
 object BestTravel {
 
     def chooseBestSum(t: Int, k: Int, ls: List[Int]): Int = {
-      val appropriateDistances = ls.combinations(k).map(_.sum).filter(_ <= t)
-      if (appropriateDistances.nonEmpty) appropriateDistances.max else -1
+      ls.combinations(k).map(_.sum).filter(_ <= t).maxOption.getOrElse(-1)
     }
 }
