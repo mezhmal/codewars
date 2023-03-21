@@ -23,11 +23,8 @@ case class Example(dice: List[Int], expected: Int)
   }
 
 def score(dice: List[Int]): Int = 
-  val groupedDice = dice.groupBy(identity)
-  val (sameDiceCount, sameDiceRank) = groupedDice.map(x => (x._2.size, x._1)).toList.sorted.last
-  if (sameDiceCount >= 3) {
-    val restDice = dice.filter(_ != sameDiceRank) ::: List.fill(sameDiceCount - 3)(sameDiceRank)
-    (if (sameDiceRank == 1) 1000 else sameDiceRank * 100) + score(restDice)
-  } else {
-    groupedDice.getOrElse(1, List[Int]()).size * 100 + groupedDice.getOrElse(5, List[Int]()).size * 50
-  }
+  dice.groupBy(identity).map((key, value) => (key, value.size)).map {
+    case (1, count) => (count / 3) * 1000 + (count % 3) * 100
+    case (5, count) => (count / 3) * 500 + (count % 3) * 50
+    case (rank, count) => (count / 3) * rank * 100
+  }.sum
